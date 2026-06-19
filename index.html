@@ -120,16 +120,20 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
    ============================================================ */
 #loader{
   position:fixed;inset:0;z-index:9999;
-  background:radial-gradient(circle at center,#1a0f2e,#0c0717);
+  background:
+    linear-gradient(rgba(12,7,23,.82),rgba(26,15,46,.9)),
+    url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/A_Burning_Diya.jpg/1920px-A_Burning_Diya.jpg') center/cover no-repeat,
+    radial-gradient(circle at center,#1a0f2e,#0c0717);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:opacity .8s ease,visibility .8s ease;
 }
 #loader.hidden{opacity:0;visibility:hidden}
+.loader-ring{position:relative;width:130px;height:130px;display:flex;align-items:center;justify-content:center}
 .loader-mandala{
-  width:120px;height:120px;border-radius:50%;
+  position:absolute;inset:0;width:130px;height:130px;border-radius:50%;
   border:2px solid transparent;
   border-top-color:var(--gold);border-bottom-color:var(--gold-deep);
-  position:relative;animation:spin 1.4s linear infinite;
+  animation:spin 1.4s linear infinite;
 }
 .loader-mandala::before,.loader-mandala::after{
   content:"";position:absolute;inset:12px;border-radius:50%;
@@ -138,11 +142,12 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
 }
 .loader-mandala::after{inset:30px;border-top-color:var(--gold);animation-duration:1s}
 .loader-om{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:2.4rem;color:var(--gold);font-family:var(--sanskrit);
+  position:absolute;z-index:2;
+  font-size:2.6rem;color:var(--gold);font-family:var(--sanskrit);
+  text-shadow:0 0 18px var(--gold-shadow);
   animation:pulse 1.4s ease-in-out infinite;
 }
-.loader-text{margin-top:1.6rem;font-family:var(--display);letter-spacing:.3em;color:var(--gold);font-size:.9rem;opacity:.85;text-transform:uppercase}
+.loader-text{margin-top:1.8rem;font-family:var(--display);letter-spacing:.3em;color:var(--gold);font-size:.9rem;opacity:.9;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
 
@@ -223,12 +228,29 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
   position:absolute;top:0;left:50%;transform:translateX(-50%);
   width:min(720px,95vw);height:100%;z-index:0;opacity:.5;pointer-events:none;
 }
-.ganesha{
-  width:clamp(130px,28vw,200px);height:auto;margin-bottom:1rem;
-  filter:drop-shadow(0 0 24px var(--gold-shadow));
-  animation:ganeshaGlow 4s ease-in-out infinite, floatY 6s ease-in-out infinite;
+.ganesha-medallion{
+  position:relative;width:clamp(160px,32vw,240px);aspect-ratio:1/1;margin-bottom:1rem;
+  display:flex;align-items:center;justify-content:center;
+  animation:floatY 6s ease-in-out infinite;
 }
-@keyframes ganeshaGlow{0%,100%{filter:drop-shadow(0 0 18px rgba(231,200,115,.35))}50%{filter:drop-shadow(0 0 38px rgba(231,200,115,.7))}}
+.ganesha-medallion::before{
+  content:"";position:absolute;inset:-6%;border-radius:50%;
+  background:radial-gradient(circle,rgba(231,200,115,.28),rgba(231,200,115,.05) 55%,transparent 72%);
+  animation:ganeshaGlow 4s ease-in-out infinite;
+}
+.ganesha-medallion::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--glass-border);
+  box-shadow:inset 0 0 30px rgba(231,200,115,.18);
+}
+.ganesha{
+  position:relative;z-index:2;width:78%;aspect-ratio:1/1;
+  background:linear-gradient(135deg,#9a7322 0%,#e7c873 38%,#f7e7b0 52%,#e7c873 66%,#b8860b 100%);
+  -webkit-mask:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ganesha_elephant_mouse_om_sanskrit.svg/960px-Ganesha_elephant_mouse_om_sanskrit.svg.png') center/contain no-repeat;
+  mask:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ganesha_elephant_mouse_om_sanskrit.svg/960px-Ganesha_elephant_mouse_om_sanskrit.svg.png') center/contain no-repeat;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));
+}
+@keyframes ganeshaGlow{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 
 .hero-shloka{
@@ -259,11 +281,12 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
 
 /* Scroll indicator */
 .scroll-ind{
-  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:26px;left:50%;
   display:flex;flex-direction:column;align-items:center;gap:8px;
   color:var(--gold);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
-  animation:floatY 2.4s ease-in-out infinite;z-index:3;
+  animation:scrollFloat 2.4s ease-in-out infinite;z-index:3;
 }
+@keyframes scrollFloat{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-10px)}}
 .scroll-ind .mouse{
   width:24px;height:40px;border:2px solid var(--gold);border-radius:14px;position:relative;
 }
@@ -348,20 +371,25 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
 /* ============================================================
    GALLERY
    ============================================================ */
-.gallery{columns:3;column-gap:14px}
-.gallery .g-item{
-  break-inside:avoid;margin-bottom:14px;border-radius:14px;overflow:hidden;
-  position:relative;cursor:pointer;border:1px solid var(--glass-border);
-  box-shadow:0 6px 24px rgba(0,0,0,.4);
+.home-showcase{max-width:760px;margin:0 auto;text-align:center}
+.g-item{
+  border-radius:18px;overflow:hidden;position:relative;cursor:pointer;
+  border:2px solid var(--glass-border);
+  box-shadow:0 14px 50px rgba(0,0,0,.55), 0 0 0 1px rgba(231,200,115,.15);
 }
-.gallery .g-item img{transition:transform .8s cubic-bezier(.2,.8,.2,1);width:100%}
-.gallery .g-item:hover img{transform:scale(1.12)}
-.gallery .g-item::after{
-  content:"⛶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  color:var(--gold-bright);font-size:1.6rem;background:rgba(12,7,23,.35);
-  opacity:0;transition:opacity .4s;
+.g-item::before{
+  content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 60px rgba(12,7,23,.45);
 }
-.gallery .g-item:hover::after{opacity:1}
+.g-item img{transition:transform .9s cubic-bezier(.2,.8,.2,1);width:100%;display:block}
+.g-item:hover img{transform:scale(1.08)}
+.g-item::after{
+  content:"⛶ View";position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;
+  color:var(--gold-bright);font-family:var(--display);font-size:1.1rem;letter-spacing:.1em;
+  background:rgba(12,7,23,.4);opacity:0;transition:opacity .4s;
+}
+.g-item:hover::after{opacity:1}
+.showcase-cap{display:block;margin-top:1.2rem;color:var(--gold);font-style:italic;font-size:1.15rem;letter-spacing:.04em}
 
 /* Lightbox */
 #lightbox{
@@ -450,14 +478,15 @@ footer{
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media(max-width:860px){.gallery{columns:2}}
 @media(max-width:760px){
   .timeline::before{left:22px}
   .tl-item{width:100%;left:0!important;text-align:left!important;padding-left:3.4rem;padding-right:.5rem}
   .tl-item .tl-dot{left:13px!important;right:auto!important}
   .diya{display:none}
+  .hero{justify-content:flex-start;padding-top:5rem}
+  /* keep scroll cue in normal flow on mobile so it never overlaps text */
+  .scroll-ind{position:static;left:auto;bottom:auto;margin:2.4rem auto .5rem;animation:floatY 2.4s ease-in-out infinite}
 }
-@media(max-width:520px){.gallery{columns:1}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -465,7 +494,10 @@ footer{
 
 <!-- ===================== LOADER ===================== -->
 <div id="loader">
-  <div class="loader-mandala"><span class="loader-om sanskrit">ॐ</span></div>
+  <div class="loader-ring">
+    <div class="loader-mandala"></div>
+    <span class="loader-om sanskrit">ॐ</span>
+  </div>
   <div class="loader-text">Gruhapravesam Mahotsavam</div>
 </div>
 
@@ -506,33 +538,10 @@ footer{
     <path d="M200 12 L207 32 L228 32 L211 44 L218 64 L200 51 L182 64 L189 44 L172 32 L193 32 Z" fill="#e7c873" opacity=".7"/>
   </svg>
 
-  <!-- Ganesha emblem -->
-  <svg class="ganesha" viewBox="0 0 200 200" aria-label="Lord Ganesha emblem">
-    <defs>
-      <radialGradient id="gG" cx="50%" cy="40%">
-        <stop offset="0%" stop-color="#fbeec0"/><stop offset="60%" stop-color="#e7c873"/><stop offset="100%" stop-color="#b8860b"/>
-      </radialGradient>
-    </defs>
-    <circle cx="100" cy="100" r="92" fill="none" stroke="url(#gG)" stroke-width="2" opacity=".7"/>
-    <g fill="url(#gG)">
-      <!-- crown -->
-      <path d="M100 26 L108 44 L126 40 L118 58 Q100 50 82 58 L74 40 L92 44 Z"/>
-      <!-- head -->
-      <circle cx="100" cy="86" r="30"/>
-      <!-- ears -->
-      <ellipse cx="62" cy="92" rx="18" ry="26"/>
-      <ellipse cx="138" cy="92" rx="18" ry="26"/>
-      <!-- trunk -->
-      <path d="M100 92 Q100 130 86 138 Q72 146 80 158 Q90 150 96 142 Q104 132 110 142 Q116 152 124 146" fill="none" stroke="url(#gG)" stroke-width="9" stroke-linecap="round"/>
-      <!-- tusks -->
-      <path d="M88 112 L84 126" stroke="#fff4d0" stroke-width="4" stroke-linecap="round"/>
-      <!-- body / belly -->
-      <ellipse cx="100" cy="160" rx="40" ry="28"/>
-    </g>
-    <circle cx="100" cy="80" r="4" fill="#5c1024"/>
-    <ellipse cx="62" cy="92" rx="7" ry="11" fill="#5c1024" opacity=".6"/>
-    <ellipse cx="138" cy="92" rx="7" ry="11" fill="#5c1024" opacity=".6"/>
-  </svg>
+  <!-- Ganesha emblem (gold-masked illustration) -->
+  <div class="ganesha-medallion">
+    <div class="ganesha" role="img" aria-label="Lord Ganesha"></div>
+  </div>
 
   <h1 class="hero-shloka sanskrit gold-text">॥ श्री गणेशाय नमः ॥</h1>
 
@@ -687,13 +696,11 @@ footer{
     <div class="divider"><span>❖</span></div>
     <h2 class="section-title gold-text reveal">Our New Home</h2>
     <p class="section-sub reveal">A glimpse of our dream realised</p>
-    <div class="gallery reveal" id="gallery">
-      <div class="g-item"><img src="HomeImage.jpeg" alt="Our new home front elevation" loading="lazy"/></div>
-      <div class="g-item"><img src="HomeImage.jpeg" alt="New home balcony view" loading="lazy" style="object-position:top"/></div>
-      <div class="g-item"><img src="HomeImage.jpeg" alt="New home entrance" loading="lazy" style="object-position:bottom"/></div>
-      <div class="g-item"><img src="HomeImage.jpeg" alt="New home facade" loading="lazy"/></div>
-      <div class="g-item"><img src="HomeImage.jpeg" alt="New home exterior detail" loading="lazy" style="object-position:center"/></div>
-      <div class="g-item"><img src="HomeImage.jpeg" alt="New home full view" loading="lazy"/></div>
+    <div class="reveal" id="gallery">
+      <div class="home-showcase">
+        <div class="g-item"><img src="HomeImage.jpeg" alt="Our new home" loading="lazy"/></div>
+        <span class="showcase-cap">✦ Where our story begins ✦</span>
+      </div>
     </div>
   </div>
 </section>
