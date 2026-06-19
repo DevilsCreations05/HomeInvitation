@@ -53,19 +53,22 @@
   --sanskrit:'Tiro Devanagari Sanskrit',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:#0c0717}
 body{
   font-family:var(--serif);
   color:var(--ink);
-  background:
+  background-color:#0c0717;
+  background-image:
     radial-gradient(circle at 20% 10%, rgba(92,16,36,.55), transparent 45%),
     radial-gradient(circle at 80% 90%, rgba(58,13,28,.6), transparent 50%),
     linear-gradient(160deg,#0c0717 0%, #1a0f2e 40%, #2a0c1d 70%, #3a0d1c 100%);
-  background-attachment:fixed;
   overflow-x:hidden;
+  overscroll-behavior-y:none;
   line-height:1.6;
   position:relative;
 }
+/* fixed dark base layer so overscroll/repaint never flashes white */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:#0c0717}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--gold);color:var(--navy-1)}
@@ -121,8 +124,8 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
 #loader{
   position:fixed;inset:0;z-index:9999;
   background:
-    linear-gradient(rgba(12,7,23,.82),rgba(26,15,46,.9)),
-    url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/A_Burning_Diya.jpg/1920px-A_Burning_Diya.jpg') center/cover no-repeat,
+    linear-gradient(rgba(12,7,23,.72),rgba(26,15,46,.86)),
+    url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Raja_Ravi_Varma_-_Mahabharata_-_NalaDamayanti.jpg') center/cover no-repeat,
     radial-gradient(circle at center,#1a0f2e,#0c0717);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:opacity .8s ease,visibility .8s ease;
@@ -229,28 +232,30 @@ section{position:relative;padding:clamp(3.5rem,8vw,7rem) clamp(1rem,5vw,3rem);z-
   width:min(720px,95vw);height:100%;z-index:0;opacity:.5;pointer-events:none;
 }
 .ganesha-medallion{
-  position:relative;width:clamp(160px,32vw,240px);aspect-ratio:1/1;margin-bottom:1rem;
-  display:flex;align-items:center;justify-content:center;
+  position:relative;width:clamp(170px,34vw,250px);aspect-ratio:1/1;margin-bottom:1.3rem;
+  border-radius:50%;padding:9px;
+  background:conic-gradient(from 0deg,#8a6510,#f7e7b0,#e7c873,#b8860b,#fff3c4,#e7c873,#8a6510);
+  box-shadow:0 0 50px var(--gold-shadow), 0 14px 40px rgba(0,0,0,.55), inset 0 0 18px rgba(0,0,0,.5);
   animation:floatY 6s ease-in-out infinite;
 }
+/* slow rotating shimmer halo behind the ring */
 .ganesha-medallion::before{
-  content:"";position:absolute;inset:-6%;border-radius:50%;
-  background:radial-gradient(circle,rgba(231,200,115,.28),rgba(231,200,115,.05) 55%,transparent 72%);
+  content:"";position:absolute;inset:-14%;border-radius:50%;z-index:-1;
+  background:conic-gradient(from 0deg,transparent,rgba(231,200,115,.35),transparent 45%,rgba(231,200,115,.35),transparent);
+  animation:spin 14s linear infinite;
+}
+/* soft glow pulse */
+.ganesha-medallion::after{
+  content:"";position:absolute;inset:-8%;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,rgba(231,200,115,.3),transparent 68%);
   animation:ganeshaGlow 4s ease-in-out infinite;
 }
-.ganesha-medallion::after{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  border:1px solid var(--glass-border);
-  box-shadow:inset 0 0 30px rgba(231,200,115,.18);
-}
 .ganesha{
-  position:relative;z-index:2;width:78%;aspect-ratio:1/1;
-  background:linear-gradient(135deg,#9a7322 0%,#e7c873 38%,#f7e7b0 52%,#e7c873 66%,#b8860b 100%);
-  -webkit-mask:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ganesha_elephant_mouse_om_sanskrit.svg/960px-Ganesha_elephant_mouse_om_sanskrit.svg.png') center/contain no-repeat;
-  mask:url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ganesha_elephant_mouse_om_sanskrit.svg/960px-Ganesha_elephant_mouse_om_sanskrit.svg.png') center/contain no-repeat;
-  filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));
+  width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;
+  border:4px solid #2a0c1d;
+  box-shadow:inset 0 0 30px rgba(0,0,0,.55);
 }
-@keyframes ganeshaGlow{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes ganeshaGlow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 
 .hero-shloka{
@@ -538,9 +543,9 @@ footer{
     <path d="M200 12 L207 32 L228 32 L211 44 L218 64 L200 51 L182 64 L189 44 L172 32 L193 32 Z" fill="#e7c873" opacity=".7"/>
   </svg>
 
-  <!-- Ganesha emblem (gold-masked illustration) -->
+  <!-- Ganesha emblem (traditional Tanjore painting in a gold ring) -->
   <div class="ganesha-medallion">
-    <div class="ganesha" role="img" aria-label="Lord Ganesha"></div>
+    <img class="ganesha" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Tanjore_Painting_Vinayaka_2.jpg/960px-Tanjore_Painting_Vinayaka_2.jpg" alt="Lord Ganesha — Tanjore painting" loading="eager" />
   </div>
 
   <h1 class="hero-shloka sanskrit gold-text">॥ श्री गणेशाय नमः ॥</h1>
@@ -946,6 +951,44 @@ window.addEventListener('load', function(){
     window.open('https://wa.me/'+WA_NUMBER+'?text='+msg,'_blank');
   });
 })();
+
+/* ============================================================
+   MOTION ONE (vanilla successor to Framer Motion) — progressive
+   enhancement. Adds spring entrances & hover micro-interactions.
+   If the CDN is unavailable, the CSS reveals above still work.
+   ============================================================ */
+import('https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm').then(function(M){
+  var animate=M.animate, inView=M.inView, stagger=M.stagger, hover=M.hover;
+
+  // Cinematic hero entrance (staggered, spring-like).
+  // Medallion gets opacity-only so its CSS float loop keeps running.
+  try{
+    animate('.ganesha-medallion',{opacity:[0,1]},{duration:1,delay:.3});
+    animate(
+      '.hero-shloka, .hero-fam, .peacock-rule, .hero-title, .hero-invite',
+      { opacity:[0,1], transform:['translateY(40px)','translateY(0)'] },
+      { delay:stagger(0.14,{startDelay:0.5}), duration:1, easing:[0.16,1,0.3,1] }
+    );
+  }catch(e){}
+
+  // Spring hover on the premium buttons & cards
+  function springHover(sel,scale){
+    document.querySelectorAll(sel).forEach(function(el){
+      el.addEventListener('mouseenter',function(){ animate(el,{transform:'scale('+scale+')'},{type:'spring',stiffness:320,damping:18}); });
+      el.addEventListener('mouseleave',function(){ animate(el,{transform:'scale(1)'},{type:'spring',stiffness:320,damping:18}); });
+    });
+  }
+  springHover('.navigate-btn',1.08);
+  springHover('.wa-btn',1.04);
+  springHover('.detail-card',1.04);
+
+  // Count numbers gently pop when they enter
+  try{
+    inView('.count-box',function(info){
+      animate(info.target,{transform:['scale(.8)','scale(1)'],opacity:[0,1]},{duration:.7,easing:[0.16,1,0.3,1]});
+    },{amount:.4});
+  }catch(e){}
+}).catch(function(){ /* offline: CSS animations already cover it */ });
 </script>
 </body>
 </html>
