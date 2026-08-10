@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>RSVP Admin • Gruha Pravesham</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;600&family=Cormorant+Garamond:wght@400;500;600&family=Rajdhani:wght@500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg-0:#08050e;--gold:#e8c56a;--gold-bright:#ffe9b0;--gold-deep:#a9781f;
+  --gold-line:rgba(232,197,106,.42);--ember:#ff8a3d;--ember-soft:#ffb266;--emerald:#4fe0b8;
+  --ink:#f3e9d6;--ink-dim:#c9b48c;--panel:rgba(22,12,30,.72);
+  --display:'Cinzel Decorative',serif;--head:'Cinzel',serif;--serif:'Cormorant Garamond',serif;
+  --hud:'Rajdhani',sans-serif;--sanskrit:'Tiro Devanagari Sanskrit',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--bg-0)}
+body{min-height:100vh;color:var(--ink);font-family:var(--serif);
+  background-color:var(--bg-0);
+  background-image:radial-gradient(120% 80% at 50% -10%,#1c0b2e 0%,transparent 55%),
+    linear-gradient(165deg,#08050e 0%,#120820 40%,#1c0a20 70%,#280c1a 100%);
+  padding:28px 18px 60px}
+.gold-text{background:linear-gradient(100deg,var(--gold-deep),var(--gold) 40%,var(--gold-bright) 55%,var(--gold-deep));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.sanskrit{font-family:var(--sanskrit)}
+.wrap{max-width:1080px;margin:0 auto}
+
+/* header */
+.a-head{text-align:center;margin-bottom:30px}
+.a-head .om{font-family:var(--sanskrit);font-size:2rem;color:var(--gold);text-shadow:0 0 18px rgba(255,138,61,.5)}
+.a-head h1{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,5vw,2.4rem);margin:6px 0 4px}
+.a-head p{font-family:var(--hud);letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;color:var(--ember-soft)}
+
+/* gate */
+.gate{max-width:400px;margin:8vh auto 0;padding:2px;
+  background:linear-gradient(135deg,var(--gold-deep),var(--ember),var(--gold),var(--gold-deep));
+  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.gate-in{background:linear-gradient(160deg,rgba(30,12,34,.98),rgba(14,8,24,.99));
+  padding:34px 28px;text-align:center;
+  clip-path:polygon(17px 0,100% 0,100% calc(100% - 17px),calc(100% - 17px) 100%,0 100%,0 17px)}
+.gate-in h2{font-family:var(--head);font-weight:600;font-size:1.4rem;color:var(--gold-bright);margin-bottom:6px}
+.gate-in p{color:var(--ink-dim);font-size:1rem;margin-bottom:20px}
+.gate-in input{width:100%;font-family:var(--serif);font-size:1.1rem;color:var(--ink);text-align:center;
+  letter-spacing:.1em;background:rgba(255,255,255,.04);border:1px solid var(--gold-line);
+  padding:13px;border-radius:2px;outline:none;margin-bottom:16px}
+.gate-in input:focus{border-color:var(--gold);box-shadow:0 0 16px rgba(232,197,106,.2)}
+.btn{font-family:var(--hud);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:.82rem;
+  color:#160c1e;padding:13px 26px;cursor:pointer;border:none;width:100%;
+  background:linear-gradient(100deg,var(--gold-deep),var(--gold),var(--ember-soft));
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  transition:filter .25s,transform .25s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--gold-bright);border:1px solid var(--gold-line);width:auto;padding:10px 20px}
+.gate-err{color:#ff9a9a;font-size:.95rem;margin-top:12px;min-height:1.2em}
+
+/* dashboard */
+#dash{display:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{position:relative;padding:20px 16px;text-align:center;background:var(--panel);
+  border:1px solid var(--gold-line);
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.stat b{font-family:var(--hud);font-weight:700;font-size:2.2rem;color:var(--gold-bright);display:block;
+  line-height:1;text-shadow:0 0 18px rgba(255,138,61,.35)}
+.stat small{font-family:var(--hud);letter-spacing:.16em;text-transform:uppercase;font-size:.62rem;
+  color:var(--ink-dim);margin-top:8px;display:block}
+.stat.yes b{color:var(--emerald)}
+.stat.head b{color:var(--ember-soft)}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.bar .status{font-family:var(--hud);letter-spacing:.1em;text-transform:uppercase;font-size:.72rem;color:var(--ink-dim)}
+.bar .actions{display:flex;gap:10px}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--gold-line);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+table{width:100%;border-collapse:collapse;min-width:640px;background:rgba(14,8,20,.6)}
+th{font-family:var(--hud);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:.66rem;
+  color:var(--ember-soft);text-align:left;padding:13px 14px;border-bottom:1px solid var(--gold-line);
+  background:rgba(42,13,30,.5);position:sticky;top:0}
+td{font-family:var(--serif);font-size:1.02rem;color:var(--ink);padding:12px 14px;
+  border-bottom:1px solid rgba(232,197,106,.12);vertical-align:top}
+tr:hover td{background:rgba(255,138,61,.05)}
+.tag{font-family:var(--hud);font-weight:600;letter-spacing:.06em;font-size:.7rem;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;white-space:nowrap}
+.tag.yes{color:#0c1410;background:linear-gradient(100deg,#3fbf8f,var(--emerald))}
+.tag.no{color:var(--ink-dim);background:rgba(255,255,255,.06);border:1px solid var(--gold-line)}
+.empty{text-align:center;color:var(--ink-dim);padding:40px;font-style:italic}
+.foot-note{text-align:center;color:rgba(201,180,140,.55);font-family:var(--hud);letter-spacing:.06em;
+  font-size:.72rem;margin-top:22px;line-height:1.7}
+a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="a-head">
+    <div class="om sanskrit">ॐ</div>
+    <h1 class="gold-text">RSVP Dashboard</h1>
+    <p>Gruha Pravesham • 23 Aug 2026</p>
+  </div>
+
+  <!-- PASSWORD GATE -->
+  <div class="gate" id="gate">
+    <div class="gate-in">
+      <h2>Admin Access</h2>
+      <p>Enter the password to view responses.</p>
+      <input type="password" id="pwd" placeholder="Password" autocomplete="current-password" />
+      <button class="btn" id="enter">Unlock</button>
+      <div class="gate-err" id="gateErr"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash">
+    <div class="stats">
+      <div class="stat"><b id="sTotal">0</b><small>Responses</small></div>
+      <div class="stat yes"><b id="sYes">0</b><small>Attending</small></div>
+      <div class="stat head"><b id="sHead">0</b><small>Total Guests</small></div>
+      <div class="stat"><b id="sNo">0</b><small>Declined</small></div>
+    </div>
+
+    <div class="bar">
+      <span class="status" id="status">Loading…</span>
+      <div class="actions">
+        <button class="btn ghost" id="refresh">↻ Refresh</button>
+        <button class="btn ghost" id="csv">⭳ Export CSV</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Name</th><th>Attending</th><th>Guests</th><th>Phone</th><th>Message</th><th>When</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <p class="foot-note">
+      Data lives in your Google Sheet • This page reads it live.<br />
+      Note: this password only hides the page in the browser — it is not bank-grade security. Keep the link private.
+    </p>
+  </div>
+
+</div>
+
+<script>
+/* ====== CONFIG ======
+   Paste the SAME Apps Script /exec URL you used in index.html. */
+var RSVP_API   = "PASTE_YOUR_WEB_APP_URL_HERE";
+var ADMIN_PWD  = "kalyan950";
+
+var gate=document.getElementById('gate'),
+    dash=document.getElementById('dash'),
+    pwdInput=document.getElementById('pwd'),
+    gateErr=document.getElementById('gateErr'),
+    statusEl=document.getElementById('status'),
+    rowsEl=document.getElementById('rows'),
+    lastRows=[];
+
+function jsonp(url, cb){
+  var s=document.createElement('script');
+  var name='jp_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var done=false;
+  var timer=setTimeout(function(){ if(!done){ cleanup(); cb(new Error('timeout')); } }, 15000);
+  function cleanup(){ done=true; clearTimeout(timer); try{delete window[name];}catch(e){window[name]=undefined;} if(s.parentNode) s.parentNode.removeChild(s); }
+  window[name]=function(d){ if(done) return; cleanup(); cb(null,d); };
+  s.onerror=function(){ if(done) return; cleanup(); cb(new Error('network')); };
+  s.src=url+(url.indexOf('?')>-1?'&':'?')+'callback='+name;
+  document.body.appendChild(s);
+}
+
+function esc(v){ return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+function fmtTime(t){
+  if(!t) return '';
+  var d=new Date(t); if(isNaN(d)) return esc(t);
+  return d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function render(rows){
+  lastRows=rows||[];
+  var yes=0,no=0,head=0;
+  var html='';
+  lastRows.forEach(function(r,i){
+    var isYes=String(r.attending).toLowerCase()!=='no';
+    if(isYes){ yes++; head+=parseInt(r.guests,10)||0; } else { no++; }
+    html+='<tr>'
+      +'<td>'+(i+1)+'</td>'
+      +'<td><b>'+esc(r.name)+'</b></td>'
+      +'<td><span class="tag '+(isYes?'yes':'no')+'">'+(isYes?'Yes':'No')+'</span></td>'
+      +'<td>'+(isYes?(esc(r.guests)||'1'):'—')+'</td>'
+      +'<td>'+esc(r.phone)+'</td>'
+      +'<td>'+esc(r.message)+'</td>'
+      +'<td>'+fmtTime(r.time)+'</td>'
+      +'</tr>';
+  });
+  rowsEl.innerHTML = lastRows.length ? html : '<tr><td colspan="7" class="empty">No responses yet.</td></tr>';
+  document.getElementById('sTotal').textContent=lastRows.length;
+  document.getElementById('sYes').textContent=yes;
+  document.getElementById('sHead').textContent=head;
+  document.getElementById('sNo').textContent=no;
+}
+
+function load(){
+  if(RSVP_API.indexOf('PASTE')>-1){ statusEl.textContent='⚠ RSVP_API not configured in admin.html'; return; }
+  statusEl.textContent='Loading…';
+  jsonp(RSVP_API+'?action=list&pwd='+encodeURIComponent(ADMIN_PWD), function(err,res){
+    if(err){ statusEl.textContent='Network error — try Refresh.'; return; }
+    if(!res||!res.ok){ statusEl.textContent='Server said: '+((res&&res.error)||'error'); return; }
+    render(res.rows);
+    statusEl.textContent='Updated '+new Date().toLocaleTimeString();
+  });
+}
+
+function unlock(){
+  if(pwdInput.value===ADMIN_PWD){
+    gate.style.display='none'; dash.style.display='block'; load();
+  } else {
+    gateErr.textContent='Incorrect password.';
+    pwdInput.value=''; pwdInput.focus();
+  }
+}
+document.getElementById('enter').addEventListener('click', unlock);
+pwdInput.addEventListener('keydown', function(e){ if(e.key==='Enter') unlock(); });
+document.getElementById('refresh').addEventListener('click', load);
+
+document.getElementById('csv').addEventListener('click', function(){
+  var head=['Name','Attending','Guests','Phone','Message','When'];
+  var lines=[head.join(',')];
+  lastRows.forEach(function(r){
+    var row=[r.name,r.attending,r.guests,r.phone,r.message,fmtTime(r.time)].map(function(v){
+      return '"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+    });
+    lines.push(row.join(','));
+  });
+  var blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='gruha-pravesham-rsvps.csv'; a.click();
+});
+</script>
+</body>
+</html>
